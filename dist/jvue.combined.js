@@ -229,6 +229,7 @@ const testLibs = function () {
             destroy   : function() {} , 
             destroyed : function() {} ,
             methods   : {} , 
+            computed  : {} , 
             watch     : {} ,
             templateName : '' , 
             template  : `` , // html 
@@ -300,9 +301,19 @@ const testLibs = function () {
 
         __setTemplate : function () {
 
-            // console.log(this.options);
+            function __wrapTemplate( template ) {
+                return `<div :id="_uuid" class="no-div" v-if="isComponentCreated_">
+                    ${template}
+                </div>`;
+            }
 
-            var templateLength = (typeof(this.options.template)) === 'string' ? this.options.template.length : 0;
+            // Priority to get template is from templateName property
+            // Validate if template name is not empty and the element is found 
+
+            // console.log(this.options);
+            var htmlContent        = '';
+            var isValidTemplate    = false; // ?
+            var templateLength     = (typeof(this.options.template)) === 'string' ? this.options.template.length : 0;
             var templateNameLength = (typeof(this.options.templateName)) === 'string' ? this.options.templateName.length : 0;
 
             // console.log("template " + this.componentName + " => " , this.options.template);
@@ -313,44 +324,53 @@ const testLibs = function () {
             if ( templateNameLength > 0  ) {
                 var templateName      = this.options.templateName;
                 var $templateElement  = $(`[data-template='${templateName}']`);
-                var templateContent   = $templateElement.html();
+                
+                if ( $templateElement.length > 0 ) {
+                    htmlContent   = $templateElement.html();
 
-                $templateElement.remove();
+                    var templateContentLength = (typeof(htmlContent)) === 'string' ? htmlContent.length : 0;
+                    isValidTemplate = (templateContentLength > 0);
 
-                this.options.template = templateContent;
+                    $templateElement.remove();
+                }
             }
 
-            // set default template
-            if ( templateLength === 0 ) {
-                this.options.template = `
-                    <div :id="_uuid" class="no-div">
-                    </div>
-                `;
-            } 
-
-            this.options.template = `
-                <div :id="_uuid" class="no-div" v-if="isCreated">
-                    ${this.options.template}
-                </div>
-            `;
-
+            // if template name is valid 
+            if ( isValidTemplate === true ) {
+                this.options.template = __wrapTemplate(htmlContent);
+            } else {
+                // set default template
+                this.options.template = __wrapTemplate(this.options.template);
+            }
         },
 
+        // set the methods
         __setMethods : function () {
             this.methods = this.options.methods;
             if ( typeof(this.options.methods) === 'function' ) {
                 this.methods = this.options.methods.apply();
             }
         },
+
+        // set the computed 
+        __setComputed : function () {
+            this.computed = this.options.computed;
+            if ( typeof(this.options.computed) === 'function' ) {
+                this.computed = this.options.computed.apply();
+            }
+        },
+
+        // set fetch the data 
+        __defaultData : function () {
+            return {
+                isComponentCreated_ : false ,
+                _uuid     : ''
+            };
+        },
         
         // set the data
         __setData : function () {
             let optionData = this.options.data;
-
-            let initData = {
-                isCreated : false ,
-                _uuid     : ''
-            };
 
             var data = {};
             if ( typeof( optionData ) === 'function' ) {
@@ -360,7 +380,7 @@ const testLibs = function () {
                 }
             }
 
-            data = $.extend(initData , optionData);
+            data = $.extend(this.__defaultData() , optionData);
             this.data = function () {
                 return data;
             }
@@ -377,10 +397,9 @@ const testLibs = function () {
                     options.created.apply(this);
                 }
 
-                this._uuid = "jvid-" + randomId(10);
-
+                this._uuid = "jqvid-" + randomId(10);
                 this.$nextTick(function () {
-                    this.isCreated = true;
+                    this.isComponentCreated_ = true;
                 });
             }
 
@@ -398,7 +417,8 @@ const testLibs = function () {
                 destroyed       : options.destroyed , 
                 methods         : self.methods , 
                 watch           : options.watch , 
-                template        : options.template
+                template        : options.template,
+                computed        : self.computed
             };
 
             return prepare;
@@ -430,7 +450,6 @@ const testLibs = function () {
                 }
             }
         }
-
     }
 
     // init for vue components
@@ -442,7 +461,6 @@ const testLibs = function () {
         return result;
     }
 
-    $.fn[pluginNameComponent]  = initVueComponents;
     $[pluginNameComponent]     = initVueComponents;
 
 })(jQuery, Vue, window , document);

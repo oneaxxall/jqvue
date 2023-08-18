@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explore and Create Libraries </title>
-    <link rel="stylesheet" href="../public/css/style.css">
+    <link rel="stylesheet" href="/test/css/style.css">
 </head>
 <body>
     
@@ -12,28 +12,51 @@
     <h1>jVue (jQuery and Vue.js 2.7 are combined and running together)</h1>
 </header>
 
-<h2>1. Combine jQuery v3.5 and Vue.js v2.7 (LTS) ?  (Fixed ✅ )</h2>
-<div style="margin-left:30px;color:red;">
-    <test-heading></test-heading>
-</div>
+<div class="content">
+    <h2>1. Combine jQuery v3.5 and Vue.js v2.7 (LTS) ?  (✅)</h2>
+    <div class="result-problems">
+        <combine-test></combine-test>
+    </div>
 
-<h2>2. Template order issues ?  (Fixed ✅ )</h2>
-<h2>3. Prevent the double curly braces printed in the browser ? (Fixed ✅)</h2>
+    <h2>2. Template order issues ?  (✅)</h2>
+    <h2>3. Prevent the double curly braces printed in the browser ? (✅)</h2>
+    <div  class="result-problems">
+        <order-3></order-3>
+        <order-2></order-2>
+        <order-1></order-1>
+    </div>
 
-<div style="margin-left:30px;color:red;">
-    <order-3></order-3>
-    <order-2></order-2>
-    <order-1></order-1>
+    <h2>4. Can we implement slot ? (✅)</h2>
+    <div class="result-problems">
+        <implement-slot>
+            <slot-component></slot-component>
+        </implement-slot>
+    </div>
+
+    <h2>5. Changing components ? (❌)</h2>
+    <div class="result-problems">
+        
+    </div>
+
+    <h2>6. Set and get the data between components ? (❌)</h2>
+    <div class="result-problems">
+
+    </div>
+
+    <h2>7. Group components ? (❌)</h2>
+    <div class="result-problems">
+
+    </div>
 </div>
 
 </body>
 
-<div data-template="test-heading-2" hidden>
+<div data-template="combine-test" hidden>
     <h3>The combined is works <span style="color:blue;" v-html="status"></span></h3>
 </div>
 
-<script src="../public/experiment-jvue/jvue.bundle.js"></script>
-<script src="../public/experiment-jvue/jvue.combined.js"></script>
-<script src="../public/experiment-jvue/jvue.test.js"></script>
+<script src="/dist/jvue.bundle.js"></script>
+<script src="/dist/jvue.combined.js"></script>
+<script src="/test/js/jvue.test.js"></script>
 
 </html>
