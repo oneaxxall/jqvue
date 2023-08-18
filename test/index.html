@@ -12,28 +12,24 @@
     <h1>jVue (jQuery and Vue.js 2.7 are combined and running together)</h1>
 </header>
 
-<div id="content" class="content">
-    <ol>
-        <li>Combine jQuery v3.5 and Vue.js v2.7 (LTS) -  (done)</li>
-        <li>Template order issues ? (done)</li>
-        <li>Prevent the double curly braces printed in the browser (done)</li>
-    </ol>
+<h2>1. Combine jQuery v3.5 and Vue.js v2.7 (LTS) ?  (Fixed ✅ )</h2>
+<div style="margin-left:30px;color:red;">
+    <test-heading></test-heading>
 </div>
 
-<h2>1. Combine jQuery v3.5 and Vue.js v2.7 (LTS)</h2>
+<h2>2. Template order issues ?  (Fixed ✅ )</h2>
+<h2>3. Prevent the double curly braces printed in the browser ? (Fixed ✅)</h2>
 
-<test-heading></test-heading>
-
-<h2>2. Template order issues ? (done)</h2>
-
-<order-3></order-3>
-<order-2></order-2>
-<order-1></order-1>
+<div style="margin-left:30px;color:red;">
+    <order-3></order-3>
+    <order-2></order-2>
+    <order-1></order-1>
+</div>
 
 </body>
 
 <div data-template="test-heading-2" hidden>
-    <h2>This is a templates! {{title}}</h2>
+    <h3>The combined is works <span style="color:blue;" v-html="status"></span></h3>
 </div>
 
 <script src="../public/experiment-jvue/jvue.bundle.js"></script>
