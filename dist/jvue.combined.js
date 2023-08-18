@@ -450,6 +450,7 @@ const testLibs = function () {
                 }
             }
         }
+
     }
 
     // init for vue components
@@ -462,5 +463,9 @@ const testLibs = function () {
     }
 
     $[pluginNameComponent]     = initVueComponents;
+
+    // ================= END FOR COMPONENTS =====================
+
+    
 
 })(jQuery, Vue, window , document);
